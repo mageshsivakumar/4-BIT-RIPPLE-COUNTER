@@ -1,4 +1,5 @@
-# 4-BIT-RIPPLE-COUNTER
+## DATE:23/05/2024
+#  EXPERIMENT NO : 12 4-BIT-RIPPLE-COUNTER
 
 **AIM:**
 
@@ -8,7 +9,6 @@ To implement  4 Bit Ripple Counter using verilog and validating their functional
 
 Quartus prime
 
-**THEORY**
 
 **4 Bit Ripple Counter**
 
@@ -23,18 +23,84 @@ In timing diagram Q0 is changing as soon as the negative edge of clock pulse is 
 ![image](https://github.com/naavaneetha/4-BIT-RIPPLE-COUNTER/assets/154305477/85e1958a-2fc1-49bb-9a9f-d58ccbf3663c)
 
 **Procedure**
+1. Increment count on each positive edge of the clock.
+2. Reset count to zero when it reaches 15.
+3. Generate clock signal (clk).
+4. Instantiate the RippleCounter module.
+5. Conduct functional testing by displaying the count at each clock cycle for 16 cycles.  
 
-/* write all the steps invloved */
 
 **PROGRAM**
+##### Developed by: PREM KUMAR G
+##### RegisterNumber: 212223230158  
+ ```
+module RippleCounter(
+    input wire clk,  // Clock input
+    output reg [3:0] count // 4-bit counter output
+);
 
-/* Program for 4 Bit Ripple Counter and verify its truth table in quartus using Verilog programming.
+// Counter logic
+always @(posedge clk) begin
+    if (count == 4'b1111) // Reset when count reaches 15
+        count <= 4'b0000;
+    else
+        count <= count + 1; // Increment count
+end
 
- Developed by: RegisterNumber:
-*/
+endmodule
+
+// Testbench
+module RippleCounter_tb;
+
+// Inputs
+reg clk;
+
+// Outputs
+wire [3:0] count;
+
+// Instantiate the counter
+RippleCounter uut(
+    .clk(clk),
+    .count(count)
+);
+
+// Clock generation
+initial begin
+    clk = 0;
+    forever #5 clk = ~clk; // Toggle clock every 5 time units
+end
+
+// Stimulus
+initial begin
+    // Wait for a few clock cycles
+    #10;
+    
+    // Display header
+    $display("Time | Count");
+    $display("-----------------");
+    
+    // Functional table testing
+    // Increment count 16 times and display the count
+    repeat (16) begin
+        #5; // Wait for one clock cycle
+        $display("%4d | %b", $time, count);
+    end
+    
+    // End simulation
+    $finish;
+end
+
+endmodule
+```
+
 
 **RTL LOGIC FOR 4 Bit Ripple Counter**
+![bitripple  diagram](https://github.com/ARCHANAT1305/4-BIT-RIPPLE-COUNTER/assets/145975189/bb799b35-431b-464f-a115-a4ea82fd8d48)
+
+
 
 **TIMING DIGRAMS FOR 4 Bit Ripple Counter**
+![bitripple waveform](https://github.com/ARCHANAT1305/4-BIT-RIPPLE-COUNTER/assets/145975189/4db60c27-e213-4670-9e8a-151fdbef205b)
 
-**RESULTS**
+**RESULTS**    
+Thus the program executed succesfully.
